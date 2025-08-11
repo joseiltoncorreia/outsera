@@ -1,0 +1,285 @@
+name: 🚀 CI/CD Pipeline Completo - Testes Automatizados
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Executar testes diariamente às 2h da manhã
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '18'
+  CYPRESS_VERSION: '13.6.0'
+  APPIUM_VERSION: '2.19.0'
+
+jobs:
+  # Job 1: Testes de API
+  api-tests:
+    name: 🧪 Testes de API
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📥 Instalar dependências
+      run: npm ci
+
+    - name: 🧪 Executar testes de API
+      run: |
+        echo "🚀 Executando testes de API..."
+        npm run test:api
+
+    - name: 📊 Upload relatórios de API
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: api-test-reports
+        path: |
+          reports/api/
+          coverage/
+        retention-days: 30
+
+  # Job 2: Testes E2E com Cypress
+  e2e-tests:
+    name: 🌐 Testes E2E (Cypress)
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📥 Instalar dependências
+      run: npm ci
+
+    - name: 🖥️ Setup Cypress
+      uses: cypress-io/github-action@v6
+      with:
+        install-command: npm ci
+        wait-on: 'http://localhost:3000'
+        wait-on-timeout: 120
+
+    - name: 🧪 Executar testes E2E
+      run: |
+        echo "🚀 Executando testes E2E com Cypress..."
+        npm run test:e2e
+
+    - name: 📊 Upload relatórios E2E
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-test-reports
+        path: |
+          cypress/reports/
+          cypress/screenshots/
+          cypress/videos/
+        retention-days: 30
+
+  # Job 3: Testes Mobile com Appium
+  mobile-tests:
+    name: 📱 Testes Mobile (Appium)
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /opt/android
+      ANDROID_SDK_ROOT: /opt/android
+      PATH: /opt/android/cmdline-tools/latest/bin:/opt/android/platform-tools:$PATH
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📥 Instalar dependências
+      run: npm ci
+
+    - name: 🖥️ Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: 📱 Download Android SDK
+      run: |
+        echo "📱 Baixando Android SDK..."
+        sudo mkdir -p $ANDROID_HOME
+        cd $ANDROID_HOME
+
+        # Download Android SDK Command Line Tools
+        wget -q https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+        unzip -q commandlinetools-linux-8512546_latest.zip
+        rm commandlinetools-linux-8512546_latest.zip
+
+        # Criar estrutura de diretórios correta
+        mkdir -p cmdline-tools/latest
+        mv cmdline-tools/cmdline-tools/* cmdline-tools/latest/
+        rmdir cmdline-tools/cmdline-tools
+
+        # Configurar variáveis de ambiente
+        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+
+        # Aceitar licenças
+        yes | sdkmanager --licenses
+
+        # Instalar SDK Platform e Build Tools
+        sdkmanager "platforms;android-33" "build-tools;33.0.0" "platform-tools"
+
+        echo "✅ Android SDK configurado com sucesso!"
+
+    - name: 🚀 Instalar e configurar Appium
+      run: |
+        echo "📱 Configurando Appium..."
+        npm install -g appium@${{ env.APPIUM_VERSION }}
+        appium driver install uiautomator2
+        appium plugin install execute-driver
+
+    - name: 📱 Iniciar emulador Android
+      run: |
+        echo "📱 Iniciando emulador Android..."
+        $ANDROID_HOME/emulator/emulator -list-avds
+        $ANDROID_HOME/emulator/emulator -avd test_device -no-audio -no-window &
+        adb wait-for-device
+        adb devices
+
+    - name: 🧪 Executar testes Mobile
+      run: |
+        echo "🚀 Executando testes Mobile..."
+        npm run appium:test
+
+    - name: 📊 Upload relatórios Mobile
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: mobile-test-reports
+        path: |
+          reports/mobile/
+          screenshots/
+        retention-days: 30
+
+  # Job 4: Testes de Segurança e Qualidade
+  security-quality:
+    name: 🔒 Segurança e Qualidade
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📥 Instalar dependências
+      run: npm ci
+
+    - name: 🔍 Auditoria de segurança
+      run: |
+        echo "🔒 Executando auditoria de segurança..."
+        npm audit --audit-level=moderate
+
+    - name: 📊 Análise de qualidade do código
+      run: |
+        echo "📊 Analisando qualidade do código..."
+        npm run lint
+        npm run test:coverage
+
+    - name: 📊 Upload relatórios de qualidade
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: quality-reports
+        path: |
+          coverage/
+          reports/quality/
+        retention-days: 30
+
+  # Job 5: Build e Deploy
+  build-deploy:
+    name: 🏗️ Build e Deploy
+    runs-on: ubuntu-latest
+    needs: [api-tests, e2e-tests, mobile-tests, security-quality]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📥 Instalar dependências
+      run: npm ci
+
+    - name: 🏗️ Build da aplicação
+      run: |
+        echo "🏗️ Fazendo build da aplicação..."
+        npm run build
+
+    - name: 🚀 Deploy para ambiente de produção
+      run: |
+        echo "🚀 Fazendo deploy para produção..."
+        # Aqui você pode adicionar comandos de deploy específicos
+        # como AWS, Azure, Heroku, etc.
+        echo "✅ Deploy concluído com sucesso!"
+
+    - name: 📧 Notificação de sucesso
+      if: success()
+      run: |
+        echo "📧 Enviando notificação de sucesso..."
+        # Aqui você pode integrar com Slack, Teams, email, etc.
+
+  # Job 6: Relatório Final
+  final-report:
+    name: 📊 Relatório Final
+    runs-on: ubuntu-latest
+    needs: [api-tests, e2e-tests, mobile-tests, security-quality]
+    if: always()
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: 📥 Download de todos os relatórios
+      uses: actions/download-artifact@v4
+      with:
+        path: all-reports/
+
+    - name: 📊 Gerar relatório consolidado
+      run: |
+        echo "📊 Gerando relatório consolidado..."
+        npm run generate-consolidated-report
+
+    - name: 📤 Upload relatório final
+      uses: actions/upload-artifact@v4
+      with:
+        name: consolidated-test-report
+        path: reports/consolidated/
+        retention-days: 90
+
+    - name: 📧 Enviar relatório por email
+      run: |
+        echo "📧 Enviando relatório por email..."
+        # Aqui você pode integrar com serviços de email

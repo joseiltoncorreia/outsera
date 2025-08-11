@@ -1,0 +1,24 @@
+{
+  "reporterEnabled": "mochawesome",
+  "mochawesomeReporterOptions": {
+    "reportDir": "cypress/reports",
+    "overwrite": false,
+    "html": true,
+    "json": true,
+    "timestamp": "mmddyyyy_HHMMss",
+    "reportTitle": "Relatório de Testes E2E - Cypress + Cucumber",
+    "reportPageTitle": "Testes E2E - Sauce Demo",
+    "embeddedScreenshots": true,
+    "inlineAssets": true,
+    "saveAllAttempts": false,
+    "code": false,
+    "charts": true,
+    "reportFilename": "relatorio-e2e",
+    "quiet": false,
+    "showPassed": true,
+    "showFailed": true,
+    "showPending": true,
+    "showSkipped": true,
+    "showHookFailures": true
+  }
+}

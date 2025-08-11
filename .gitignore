@@ -1,0 +1,49 @@
+# Dependências
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de build
+dist/
+build/
+*.tgz
+*.tar.gz
+
+# Logs
+logs/
+*.log
+
+# Arquivos temporários
+.tmp/
+.temp/
+*.tmp
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos de teste
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# Arquivos de relatório
+reports/
+results/
+
+# Arquivos de configuração local
+.env
+.env.local
+.env.*.local
+
+# Lock files (opcional - você pode querer incluí-los)
+# package-lock.json
+# yarn.lock

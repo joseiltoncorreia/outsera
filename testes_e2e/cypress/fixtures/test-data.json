@@ -1,0 +1,62 @@
+{
+  "users": {
+    "standard": {
+      "username": "standard_user",
+      "password": "secret_sauce",
+      "description": "Usuário padrão com acesso completo"
+    },
+    "locked": {
+      "username": "locked_out_user",
+      "password": "secret_sauce",
+      "description": "Usuário bloqueado para testes negativos"
+    },
+    "problem": {
+      "username": "problem_user",
+      "password": "secret_sauce",
+      "description": "Usuário com problemas para testes de UI"
+    },
+    "performance": {
+      "username": "performance_glitch_user",
+      "password": "secret_sauce",
+      "description": "Usuário para testes de performance"
+    }
+  },
+  "checkout": {
+    "valid": {
+      "firstName": "João",
+      "lastName": "Silva",
+      "postalCode": "12345-678"
+    },
+    "invalid": {
+      "firstName": "",
+      "lastName": "",
+      "postalCode": ""
+    }
+  },
+  "products": {
+    "backpack": {
+      "name": "Sauce Labs Backpack",
+      "price": "$29.99",
+      "description": "Mochila para laptop"
+    },
+    "bikeLight": {
+      "name": "Sauce Labs Bike Light",
+      "price": "$9.99",
+      "description": "Luz para bicicleta"
+    },
+    "onesie": {
+      "name": "Sauce Labs Onesie",
+      "price": "$7.99",
+      "description": "Macacão infantil"
+    }
+  },
+  "testUrls": {
+    "base": "https://www.saucedemo.com",
+    "login": "/",
+    "inventory": "/inventory.html",
+    "cart": "/cart.html",
+    "checkout": "/checkout-step-one.html",
+    "overview": "/checkout-step-two.html",
+    "complete": "/checkout-complete.html"
+  }
+}

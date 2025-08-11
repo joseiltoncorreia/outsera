@@ -1,0 +1,17 @@
+{
+  "name": "testes-carga-k6",
+  "version": "1.0.0",
+  "description": "Testes de carga usando K6 para avaliação de performance",
+  "main": "index.js",
+  "scripts": {
+    "test": "k6 run scripts/teste-carga-basico.js",
+    "test:report": "k6 run --out json=results/test-results.json scripts/teste-carga-basico.js",
+    "test:html": "k6 run --out json=results/test-results.json scripts/teste-carga-basico.js && node generate-report.js"
+  },
+  "keywords": ["k6", "performance", "load-testing", "api-testing"],
+  "author": "Estudante",
+  "license": "MIT",
+  "devDependencies": {
+    "k6": "^0.47.0"
+  }
+}
