@@ -17,3 +17,4 @@ exec(command, (error, stdout, stderr) => {
   }
   console.log('✅ Relatório aberto com sucesso!');
 });
+

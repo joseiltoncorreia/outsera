@@ -176,3 +176,4 @@ A **Atividade 2** foi **concluída com excelência**, atendendo a todos os requi
 ---
 
 **🎉 ATIVIDADE 2 - CONCLUÍDA COM SUCESSO! 🎉**
+

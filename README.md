@@ -2,6 +2,35 @@
 
 Este repositório contém diferentes tipos de testes automatizados para demonstrar práticas de qualidade de software.
 
+## 🚀 **COMO EXECUTAR CADA PROJETO**
+
+### 🧪 **Testes E2E (Frontend)**
+```bash
+cd testes_e2e
+npm install
+npm run cypress:open          # Modo visual
+npm run test:e2e              # Modo headless
+npm run test:report           # Com relatório
+```
+
+### 🔌 **Testes de API**
+```bash
+cd testes_api
+npm install
+npm run cypress:open          # Modo visual
+npm run cypress:run           # Modo headless
+npm run test:report           # Com relatório
+```
+
+### ⚡ **Testes de Performance (Carga)**
+```bash
+cd testes_carga_k6
+npm install
+choco install k6 -y           # Instalar K6
+k6 run scripts/teste-carga-basico.js
+npm run test:html             # Com relatório HTML
+```
+
 ## 📁 Estrutura do Projeto
 
 ### 🧪 `testes_e2e/`
@@ -18,10 +47,6 @@ Testes de carga e performance usando K6 para análise de:
 - Capacidade de resposta
 - Comportamento sob estresse
 - Métricas de performance
-
-## 🚀 Como Executar
-
-Cada pasta contém suas próprias instruções de instalação e execução. Consulte os arquivos README.md individuais para detalhes específicos.
 
 ## 📋 Pré-requisitos
 

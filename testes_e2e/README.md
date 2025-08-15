@@ -2,6 +2,31 @@
 
 Este projeto implementa testes end-to-end (E2E) para a aplicação Sauce Demo usando Cypress com Cucumber, seguindo as melhores práticas de automação de testes.
 
+## 🚀 **EXECUÇÃO RÁPIDA (3 PASSOS)**
+
+### **1. Instalar Dependências**
+```bash
+npm install
+```
+
+### **2. Executar Testes**
+```bash
+# Abrir Cypress (modo visual)
+npm run cypress:open
+
+# OU executar todos os testes
+npm run test:e2e
+
+# OU executar com relatório
+npm run test:report
+```
+
+### **3. Ver Resultados**
+- **Console**: Resultados em tempo real
+- **Relatórios**: `cypress/reports/` (HTML e JSON)
+- **Screenshots**: `cypress/screenshots/` (em caso de falha)
+- **Vídeos**: `cypress/videos/` (gravação da execução)
+
 ## 🎯 Objetivos
 
 - **Tarefa 1**: Teste de login e navegação para página específica

@@ -2,6 +2,30 @@
 
 Este projeto implementa testes automatizados de API usando Cypress para a **Atividade 2** de Testes Automatizados de API.
 
+## 🚀 **EXECUÇÃO RÁPIDA (3 PASSOS)**
+
+### **1. Instalar Dependências**
+```bash
+npm install
+```
+
+### **2. Executar Testes**
+```bash
+# Abrir Cypress (modo visual)
+npm run cypress:open
+
+# OU executar em modo headless
+npm run cypress:run
+
+# OU executar com relatório
+npm run test:report
+```
+
+### **3. Ver Resultados**
+- **Console**: Resultados em tempo real
+- **Relatórios**: `cypress/reports/` (HTML e JSON)
+- **Screenshots**: `cypress/screenshots/` (em caso de falha)
+
 ## 📋 Objetivo
 
 Avaliar a capacidade de automatizar testes de API e interpretar os resultados, incluindo:
@@ -239,3 +263,4 @@ Para dúvidas ou problemas:
 ---
 
 **Desenvolvido para Atividade 2 - Testes Automatizados de API** 🎯
+

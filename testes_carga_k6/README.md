@@ -2,6 +2,33 @@
 
 Este projeto implementa testes de carga usando K6 para avaliar a performance de APIs públicas.
 
+## 🚀 **EXECUÇÃO RÁPIDA (3 PASSOS)**
+
+### **1. Instalar Dependências**
+```bash
+# Instalar K6
+choco install k6 -y
+
+# OU baixar de: https://k6.io/docs/getting-started/installation/
+
+# Instalar Node.js (para relatórios)
+npm install
+```
+
+### **2. Executar Testes**
+```bash
+# Teste básico (500 usuários, 5 minutos)
+k6 run scripts/teste-carga-basico.js
+
+# OU com relatório HTML
+npm run test:html
+```
+
+### **3. Ver Resultados**
+- **Console**: Métricas em tempo real
+- **HTML**: `reports/relatorio-teste-carga.html`
+- **JSON**: `results/test-results.json`
+
 ## Objetivo
 Avaliar a experiência com testes de performance e ferramentas de carga, simulando 500 usuários simultâneos por 5 minutos.
 
